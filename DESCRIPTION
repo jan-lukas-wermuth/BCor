@@ -1,0 +1,24 @@
+Package: BCor
+Title: Correlations for 2x2 Contingency Tables
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Marc-Oliver", "Pohle", , "marc-oliver.pohle@h-its.org", role = c("aut")),
+    person("Jan-Lukas", "Wermuth", , "wermuth@econ.uni-frankfurt.de", role = c("aut", "cre")),
+    person("Timo", "Dimitriadis", , "timo.dimitriadis@awi.uni-heidelberg.de", role = c("aut")))
+Description: A collection of estimators for correlation coefficients specific to 2 x 2 contingency 
+	tables satisfying attainability, i.e. attaining the boundary values of 1 (-1) for comonotonic
+	(countermonotonic) Bernoulli random variables. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    dplyr,
+    mvtnorm,
+    stats,
+    MASS,
+    epitools,
+    sandwich,
+    magrittr
+URL: https://github.com/jan-lukas-wermuth/BCor
+BugReports: https://github.com/jan-lukas-wermuth/BCor/issues
