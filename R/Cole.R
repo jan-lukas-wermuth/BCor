@@ -4,10 +4,11 @@
 #'
 #' @param X a n x 1 numeric vector, matrix or data frame.
 #' @param Y a n x 1 numeric vector, matrix or data frame.
-#' @param alpha confidence level for the returned confidence interval.
+#' @param alpha confidence level for the returned confidence interval. NA yields Cole's correlation without confidence intervals.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param m_rep number of Monte Carlo replications used for approximating the limiting distribution of Cole's C.
 #' @param c_seq sequence of C_0 to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.
+#' @param n sample size. Only necessary if a contingency table of probabilities is provided.
 #'
 #' @return The value of Cole's correlation.
 #' @export
@@ -15,11 +16,31 @@
 #' @examples
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Cole(x)
-Cole <- function (X, Y = NULL, alpha = 0.95, covar = "iid", m_rep = 10000, c_seq = NA) {
+Cole <- function (X, Y = NULL, alpha = 0.95, covar = "iid", m_rep = 10000, c_seq = NA, n) {
+  if (alpha == NA){
+    if (!is.null(Y))
+      X <- table(X, Y)
+    stopifnot(prod(dim(X)) == 4 || length(X) == 4)
+    a <- X[1, 1]
+    b <- X[1, 2]
+    c <- X[2, 1]
+    d <- X[2, 2]
+    if (a*d-b*c >= 0){
+      C <- (a*d-b*c) / min((a + b) * (b + d), (a + c) * (c + d))
+    }
+    else C <- (a*d-b*c) / min((a + b) * (a + c), (c + d) * (b + d))
+    res <- dplyr::tribble(~C
+                          #--
+                          C)
+    return(res)
+  }
   if (is.null(Y)){
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
     colnames(X) <- c(1,0)
     rownames(X) <- c(1,0)
+    if (near(sum(X), 1)){
+      X <- X * n
+    }
     x <- as.numeric(epitools::expand.table(X)[,1]) - 1
     y <- as.numeric(epitools::expand.table(X)[,2]) - 1
   } else {
@@ -61,7 +82,10 @@ Cole <- function (X, Y = NULL, alpha = 0.95, covar = "iid", m_rep = 10000, c_seq
 
   # If we are on the boundary, do not report inference!
   if (boundary_case) {
-    return(C)
+    res <- dplyr::tribble(~C
+                          #--
+                          C)
+    return(res)
   } else {
     # Estimate the covariance matrix Omega, either by HC, HAC or the sample cov
     if (covar == "iid") {

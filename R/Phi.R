@@ -4,8 +4,9 @@
 #'
 #' @param X a n x 1 numeric vector, matrix or data frame.
 #' @param Y a n x 1 numeric vector, matrix or data frame.
-#' @param alpha confidence level for the returned confidence interval.
+#' @param alpha confidence level for the returned confidence interval. NA yields Cole's correlation without confidence intervals.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
+#' @param n sample size. Only necessary if a contingency table of probabilities is provided.
 #'
 #' @return The value of Phi together with the specified confidence interval.
 #' @export
@@ -14,10 +15,27 @@
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Phi(x)
 Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
+  if (alpha == NA){
+    if (!is.null(Y))
+      X <- table(X, Y)
+    stopifnot(prod(dim(X)) == 4 || length(X) == 4)
+    a <- X[1, 1]
+    b <- X[1, 2]
+    c <- X[2, 1]
+    d <- X[2, 2]
+    Phi <- (a * d - b * c)/(sqrt((a + b) * (a + c) * (b + d) * (c + d)))
+    res <- dplyr::tribble(~Phi
+                          #--
+                          Phi)
+    return(res)
+  }
   if (is.null(Y)){
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
     colnames(X) <- c(1,0)
     rownames(X) <- c(1,0)
+    if (near(sum(X), 1)){
+      X <- X * n
+    }
     x <- as.numeric(epitools::expand.table(X)[,1]) - 1
     y <- as.numeric(epitools::expand.table(X)[,2]) - 1
   } else {
@@ -57,7 +75,10 @@ Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
 
   # If we are on the boundary, do not report inference!
   if (boundary_case) {
-    return(Phi)
+    res <- dplyr::tribble(~Phi
+                          #--
+                          Phi)
+    return(res)
   } else {
     # Estimate the covariance matrix Omega, either by HC, HAC or the sample cov
     if (covar == "iid") {
