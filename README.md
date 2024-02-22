@@ -46,7 +46,7 @@ Cole(x)
 #> # A tibble: 1 × 3
 #>        C CI_lower CI_upper
 #>    <dbl>    <dbl>    <dbl>
-#> 1 -0.629   -0.814   -0.208
+#> 1 -0.629    -0.81   -0.208
 YuleQ(x)
 #> # A tibble: 1 × 3
 #>        Q CI_lower CI_upper
@@ -63,7 +63,7 @@ Cole.inv(C, m)
 #>      [,1] [,2]
 #> [1,]    7    3
 #> [2,]   13   27
-YuleQ.inv(C, m)
+YuleQ.inv(Q, m)
 #>           [,1]      [,2]
 #> [1,]  6.139991  3.860009
 #> [2,] 13.860009 26.139991

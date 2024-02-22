@@ -52,5 +52,5 @@ Q <- 0.5
 m <- c(10, 40, 20, 30)
 
 Cole.inv(C, m)
-YuleQ.inv(C, m)
+YuleQ.inv(Q, m)
 ```
