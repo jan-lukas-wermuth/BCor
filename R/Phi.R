@@ -4,7 +4,7 @@
 #'
 #' @param X a n x 1 numeric vector, matrix or data frame.
 #' @param Y a n x 1 numeric vector, matrix or data frame.
-#' @param alpha confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.
+#' @param alpha confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param n sample size. Only necessary if a contingency table of probabilities is provided.
@@ -16,7 +16,7 @@
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Phi(x)
 Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
-  if (alpha == FALSE){
+  if (isFALSE(alpha)){
     if (!is.null(Y))
       X <- table(X, Y)
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
@@ -92,7 +92,7 @@ Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
 
   ### Inference for Phi with Fisher Transformation
   L_est <- L(p_est, q_est, r_est)
-  if (Fisher == TRUE){
+  if (isTRUE(Fisher)){
     PhiZ_Var <- as.numeric(t(L_est) %*% Omega %*% L_est * 1 / (1 - Phi^2)^2) / n
     PhiZ_CI <- c(tanh(PhiZ + stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)),
                  tanh(PhiZ - stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)))

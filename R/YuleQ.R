@@ -5,7 +5,7 @@
 #' @param X a n x 1 numeric vector, matrix or data frame.
 #' @param Y a n x 1 numeric vector, matrix or data frame.
 #' @param g a scalar between 0 and 1.
-#' @param alpha confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.
+#' @param alpha confidence level for the returned confidence interval. FALSE yields Yule's Q without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param n sample size. Only necessary if a contingency table of probabilities is provided.
@@ -17,7 +17,7 @@
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' YuleQ(x)
 YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
-  if (alpha == FALSE){
+  if (isFALSE(alpha)){
     if (!is.null(Y))
       X <- table(X, Y)
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
@@ -92,7 +92,7 @@ YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid
     } else stop("Please insert a valid option for computing the covariance matrix!")
 
   ### Inference for Yule's Q with Fisher transformation
-  if (Fisher == TRUE){
+  if (isTRUE(Fisher)){
     H_est <- H(p_est, q_est, r_est)
     QZ_Var <- as.numeric(t(H_est) %*% Omega %*% H_est) / n
     QZ_CI <- c(tanh(QZ + stats::qnorm((1 - alpha) / 2) * sqrt(QZ_Var)),

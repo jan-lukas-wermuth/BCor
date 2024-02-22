@@ -4,14 +4,25 @@
 \alias{Cole}
 \title{Cole's Correlation}
 \usage{
-Cole(X, Y = NULL, alpha = 0.95, covar = "iid", m_rep = 10000, c_seq = NA, n)
+Cole(
+  X,
+  Y = NULL,
+  alpha = 0.95,
+  Fisher = TRUE,
+  covar = "iid",
+  m_rep = 10000,
+  c_seq = NA,
+  n
+)
 }
 \arguments{
 \item{X}{a n x 1 numeric vector, matrix or data frame.}
 
 \item{Y}{a n x 1 numeric vector, matrix or data frame.}
 
-\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.}
+\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's C without confidence intervals.}
+
+\item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 
 \item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
 

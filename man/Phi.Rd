@@ -11,7 +11,7 @@ Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 
 \item{Y}{a n x 1 numeric vector, matrix or data frame.}
 
-\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.}
+\item{alpha}{confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.}
 
 \item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 

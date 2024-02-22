@@ -13,7 +13,7 @@ YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 
 \item{g}{a scalar between 0 and 1.}
 
-\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.}
+\item{alpha}{confidence level for the returned confidence interval. FALSE yields Yule's Q without confidence intervals.}
 
 \item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 
