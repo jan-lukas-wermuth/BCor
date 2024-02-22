@@ -18,13 +18,14 @@
 #' YuleQ(x)
 YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
   if (isFALSE(alpha)){
-    if (!is.null(Y))
+    if (!is.null(Y)){
       X <- table(X, Y)
+    }
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
-    a <- X[1, 1]
-    b <- X[1, 2]
-    c <- X[2, 1]
-    d <- X[2, 2]
+    a <- as.numeric(X[1, 1])
+    b <- as.numeric(X[1, 2])
+    c <- as.numeric(X[2, 1])
+    d <- as.numeric(X[2, 2])
     Q <- (a * d - b * c)/(a * d + b * c)
     res <- dplyr::tribble(~Q,
                           #--

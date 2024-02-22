@@ -17,14 +17,15 @@
 #' Phi(x)
 Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
   if (isFALSE(alpha)){
-    if (!is.null(Y))
+    if (!is.null(Y)){
       X <- table(X, Y)
+    }
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
-    a <- X[1, 1]
-    b <- X[1, 2]
-    c <- X[2, 1]
-    d <- X[2, 2]
-    Phi <- (a * d - b * c)/(sqrt((a + b) * (a + c) * (b + d) * (c + d)))
+    a <- as.numeric(X[1, 1])
+    b <- as.numeric(X[1, 2])
+    c <- as.numeric(X[2, 1])
+    d <- as.numeric(X[2, 2])
+    Phi <- (a * d - b * c)/sqrt((a + b) * (a + c) * (b + d) * (c + d))
     res <- dplyr::tribble(~Phi,
                           #--
                           Phi)

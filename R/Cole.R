@@ -19,13 +19,14 @@
 #' Cole(x)
 Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep = 10000, c_seq = NA, n) {
   if (isFALSE(alpha)){
-    if (!is.null(Y))
+    if (!is.null(Y)){
       X <- table(X, Y)
+    }
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
-    a <- X[1, 1]
-    b <- X[1, 2]
-    c <- X[2, 1]
-    d <- X[2, 2]
+    a <- as.numeric(X[1, 1])
+    b <- as.numeric(X[1, 2])
+    c <- as.numeric(X[2, 1])
+    d <- as.numeric(X[2, 2])
     if (a*d-b*c >= 0){
       C <- (a*d-b*c) / min((a + b) * (b + d), (a + c) * (c + d))
     }
