@@ -4,16 +4,20 @@
 \alias{Phi}
 \title{Phi}
 \usage{
-Phi(X, Y = NULL, alpha = 0.95, covar = "iid")
+Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 }
 \arguments{
 \item{X}{a n x 1 numeric vector, matrix or data frame.}
 
 \item{Y}{a n x 1 numeric vector, matrix or data frame.}
 
-\item{alpha}{confidence level for the returned confidence interval.}
+\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.}
+
+\item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 
 \item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
+
+\item{n}{sample size. Only necessary if a contingency table of probabilities is provided.}
 }
 \value{
 The value of Phi together with the specified confidence interval.

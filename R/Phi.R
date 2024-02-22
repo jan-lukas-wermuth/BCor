@@ -4,7 +4,8 @@
 #'
 #' @param X a n x 1 numeric vector, matrix or data frame.
 #' @param Y a n x 1 numeric vector, matrix or data frame.
-#' @param alpha confidence level for the returned confidence interval. NA yields Cole's correlation without confidence intervals.
+#' @param alpha confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.
+#' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param n sample size. Only necessary if a contingency table of probabilities is provided.
 #'
@@ -14,8 +15,8 @@
 #' @examples
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Phi(x)
-Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
-  if (alpha == NA){
+Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
+  if (alpha == FALSE){
     if (!is.null(Y))
       X <- table(X, Y)
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
@@ -24,7 +25,7 @@ Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
     c <- X[2, 1]
     d <- X[2, 2]
     Phi <- (a * d - b * c)/(sqrt((a + b) * (a + c) * (b + d) * (c + d)))
-    res <- dplyr::tribble(~Phi
+    res <- dplyr::tribble(~Phi,
                           #--
                           Phi)
     return(res)
@@ -33,7 +34,7 @@ Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
     colnames(X) <- c(1,0)
     rownames(X) <- c(1,0)
-    if (near(sum(X), 1)){
+    if (dplyr::near(sum(X), 1)){
       X <- X * n
     }
     x <- as.numeric(epitools::expand.table(X)[,1]) - 1
@@ -75,7 +76,7 @@ Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
 
   # If we are on the boundary, do not report inference!
   if (boundary_case) {
-    res <- dplyr::tribble(~Phi
+    res <- dplyr::tribble(~Phi,
                           #--
                           Phi)
     return(res)
@@ -89,20 +90,28 @@ Phi <- function (X, Y = NULL, alpha = 0.95, covar = "iid") {
       Omega <- n * sandwich::vcovHC(stats::lm(as.matrix(df) ~ 1))
     } else stop("Please insert a valid option for computing the covariance matrix!")
 
-  ### Inference
+  ### Inference for Phi with Fisher Transformation
   L_est <- L(p_est, q_est, r_est)
-  PhiZ_Var <- as.numeric(t(L_est) %*% Omega %*% L_est * 1 / (1 - Phi^2)^2) / n
-  PhiZ_CI <- c(tanh(PhiZ + stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)),
-               tanh(PhiZ - stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)))
-
-  res <- dplyr::tribble(~Phi, ~CI_lower, ~CI_upper,
-                 #--|--|--
-                 Phi, PhiZ_CI[1], PhiZ_CI[2])
+  if (Fisher == TRUE){
+    PhiZ_Var <- as.numeric(t(L_est) %*% Omega %*% L_est * 1 / (1 - Phi^2)^2) / n
+    PhiZ_CI <- c(tanh(PhiZ + stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)),
+                 tanh(PhiZ - stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)))
+    res <- dplyr::tribble(~Phi, ~CI_lower, ~CI_upper,
+                          #--|--|--
+                          Phi, PhiZ_CI[1], PhiZ_CI[2])
+  } else {
+    Phi_Var <- as.numeric(t(L_est) %*% Omega %*% L_est) / n
+    Phi_CI <- c(Phi + stats::qnorm((1 - alpha) / 2) * sqrt(Phi_Var),
+                Phi - stats::qnorm((1 - alpha) / 2) * sqrt(Phi_Var))
+    res <- dplyr::tribble(~Phi, ~CI_lower, ~CI_upper,
+                          #--|--|--
+                          Phi, Phi_CI[1], Phi_CI[2])
+  }
   }
   return(res)
 }
 
-
+# Helper functions for the Jacobians used for the Delta-Method
 #' @keywords internal
 L <- function(p, q, r) {
   denom <- sqrt(p * (1 - p) * q * (1 - q))

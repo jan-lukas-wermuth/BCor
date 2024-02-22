@@ -4,7 +4,7 @@
 \alias{YuleQ}
 \title{Yule's Q}
 \usage{
-YuleQ(X, Y = NULL, g = 1, alpha = 0.95, covar = "iid")
+YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 }
 \arguments{
 \item{X}{a n x 1 numeric vector, matrix or data frame.}
@@ -13,9 +13,13 @@ YuleQ(X, Y = NULL, g = 1, alpha = 0.95, covar = "iid")
 
 \item{g}{a scalar between 0 and 1.}
 
-\item{alpha}{confidence level for the returned confidence interval.}
+\item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's correlation without confidence intervals.}
+
+\item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 
 \item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
+
+\item{n}{sample size. Only necessary if a contingency table of probabilities is provided.}
 }
 \value{
 The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H.
