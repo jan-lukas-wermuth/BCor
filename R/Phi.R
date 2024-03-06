@@ -2,12 +2,12 @@
 #'
 #' `Phi()` computes Phi and corresponding confidence intervals.
 #'
-#' @param X a n x 1 numeric vector, matrix or data frame.
-#' @param Y a n x 1 numeric vector, matrix or data frame.
+#' @param X a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
+#' @param Y a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
-#' @param n sample size. Only necessary if a contingency table of probabilities is provided.
+#' @param n sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.
 #'
 #' @return The value of Phi together with the specified confidence interval.
 #' @export
@@ -43,6 +43,10 @@ Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
   } else {
     x <- X
     y <- Y
+  }
+
+  if (isFALSE(all(unique(x) %in% c(0,1))) || isFALSE(all(unique(y) %in% c(0,1)))){
+    stop("Please insert data with values of 0 or 1!")
   }
 
   if (length(x) != length(y)) {
@@ -94,13 +98,13 @@ Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
   ### Inference for Phi with Fisher Transformation
   L_est <- L(p_est, q_est, r_est)
   if (isTRUE(Fisher)){
-    PhiZ_Var <- as.numeric(t(L_est) %*% Omega %*% L_est * 1 / (1 - Phi^2)^2) / n
+    PhiZ_Var <- as.numeric(t(L_est) %*% Omega %*% L_est / (1 - Phi^2)^2) / n
     PhiZ_CI <- c(tanh(PhiZ + stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)),
                  tanh(PhiZ - stats::qnorm((1 - alpha) / 2) * sqrt(PhiZ_Var)))
     res <- dplyr::tribble(~Phi, ~CI_lower, ~CI_upper,
                           #--|--|--
                           Phi, PhiZ_CI[1], PhiZ_CI[2])
-  } else {
+  } else { # Inference for Phi without Fisher Transformation
     Phi_Var <- as.numeric(t(L_est) %*% Omega %*% L_est) / n
     Phi_CI <- c(Phi + stats::qnorm((1 - alpha) / 2) * sqrt(Phi_Var),
                 Phi - stats::qnorm((1 - alpha) / 2) * sqrt(Phi_Var))

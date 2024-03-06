@@ -12,13 +12,14 @@ Cole(
   covar = "iid",
   m_rep = 10000,
   c_seq = NA,
-  n
+  n,
+  details_inference = FALSE
 )
 }
 \arguments{
-\item{X}{a n x 1 numeric vector, matrix or data frame.}
+\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
 
-\item{Y}{a n x 1 numeric vector, matrix or data frame.}
+\item{Y}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
 
 \item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's C without confidence intervals.}
 
@@ -30,7 +31,9 @@ Cole(
 
 \item{c_seq}{sequence of C_0 to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.}
 
-\item{n}{sample size. Only necessary if a contingency table of probabilities is provided.}
+\item{n}{sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.}
+
+\item{details_inference}{logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals.}
 }
 \value{
 The value of Cole's correlation.

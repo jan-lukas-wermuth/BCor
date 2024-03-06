@@ -2,13 +2,13 @@
 #'
 #' `YuleQ()` computes Yule's Q and corresponding confidence intervals.
 #'
-#' @param X a n x 1 numeric vector, matrix or data frame.
-#' @param Y a n x 1 numeric vector, matrix or data frame.
+#' @param X a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
+#' @param Y a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
 #' @param g a scalar between 0 and 1.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Yule's Q without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
-#' @param n sample size. Only necessary if a contingency table of probabilities is provided.
+#' @param n sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.
 #'
 #' @return The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H.
 #' @export
@@ -44,6 +44,10 @@ YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid
   } else {
     x <- X
     y <- Y
+  }
+
+  if (isFALSE(all(unique(x) %in% c(0,1))) || isFALSE(all(unique(y) %in% c(0,1)))){
+    stop("Please insert data with values of 0 or 1!")
   }
 
   if (length(x) != length(y)) {

@@ -7,9 +7,9 @@
 YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 }
 \arguments{
-\item{X}{a n x 1 numeric vector, matrix or data frame.}
+\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
 
-\item{Y}{a n x 1 numeric vector, matrix or data frame.}
+\item{Y}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
 
 \item{g}{a scalar between 0 and 1.}
 
@@ -19,7 +19,7 @@ YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 
 \item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
 
-\item{n}{sample size. Only necessary if a contingency table of probabilities is provided.}
+\item{n}{sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.}
 }
 \value{
 The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H.
