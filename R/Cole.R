@@ -114,10 +114,9 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
   T_stat_sigma0 <- cov / sqrt(var_sigma)
   p_val_ctrue_pos <- stats::pnorm(T_stat_sigma0)
   p_val_ctrue_neg <- 1 - stats::pnorm(T_stat_sigma0)
+  p_val_ctrue_0 <- 2 * stats::pnorm(-abs(T_stat_sigma0))
 
-  p_vals_pretest <- ifelse(rep(cov > 0, length(c_seq)),
-                           c(rep(p_val_ctrue_neg, (length(c_seq) - 1) / 2 + 1), rep(p_val_ctrue_pos, (length(c_seq) - 1) / 2)),
-                           c(rep(p_val_ctrue_neg, (length(c_seq) - 1) / 2), rep(p_val_ctrue_pos, (length(c_seq) - 1) / 2 + 1)))
+  p_vals_pretest <- c(rep(p_val_ctrue_neg, (length(c_seq) - 1) / 2), p_val_ctrue_0, rep(p_val_ctrue_pos, (length(c_seq) - 1) / 2))
 
   # "Pre-test" for p=q and p=1-q
   pv_eq_pre_pos <- 2 * stats::pnorm(-abs(p_est - q_est), mean = 0, sd = sqrt((Omega[1, 1] + Omega[2, 2] - 2 * Omega[1, 2]) / n))
