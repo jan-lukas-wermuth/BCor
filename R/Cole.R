@@ -119,6 +119,12 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
                            c(rep(p_val_ctrue_neg, (length(c_seq) - 1) / 2 + 1), rep(p_val_ctrue_pos, (length(c_seq) - 1) / 2)),
                            c(rep(p_val_ctrue_neg, (length(c_seq) - 1) / 2), rep(p_val_ctrue_pos, (length(c_seq) - 1) / 2 + 1)))
 
+  # "Pre-test" for p=q and p=1-q
+  pv_eq_pre_pos <- 2 * stats::pnorm(-abs(p_est - q_est), mean = 0, sd = sqrt((Omega[1, 1] + Omega[2, 2] - 2 * Omega[1, 2]) / n))
+  pv_eq_pre_neg <- 2 * stats::pnorm(-abs(p_est + q_est), mean = 1, sd = sqrt((Omega[1, 1] + Omega[2, 2] + 2 * Omega[1, 2]) / n))
+
+  pv_eq_pre <- c(rep(pv_eq_pre_neg, (length(c_seq) - 1) / 2), NA, rep(pv_eq_pre_pos, (length(c_seq) - 1) / 2))
+
   # The case {cc=0}
   Delta <- c(-q_est,-p_est, 1)
 
@@ -150,7 +156,7 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
   sigma_mneg_vec <- rbind(mV[, 4], mV[, 3] - 1 * (mV[, 1] > -mV[, 2]) * (mV[, 1] + mV[, 2]))
   Cdiff_neg_samples <- as.numeric(Lambda_neg %*% sigma_mneg_vec)   # Samples from sqrt(n) (hat C_n - cc)
 
-  eps <- 0.000001 # Small number such that we avoid cc < 0 in the later if clauses
+  eps <- 0.000001 # Small number such that we avoid cc < 0 in the later if-clauses
 
   # Initialize P-values
   pvals <- matrix(rep(NA, 2 * length(c_seq)), ncol = 2)
@@ -200,7 +206,7 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
         # This test draws on samples from the asymptotic distribution
         Z1 <- stats::rnorm(m_rep)
         CZdiff_zero_samples <- sqrt(as.numeric(t(Delta) %*% Omega %*% Delta) / (1 - C^2)^2) * (Z1 * 1 * (Z1 >= 0) / m_plus + Z1 * 1 * (Z1 < 0) / m_minus)
-        pvals[c_index, 2] <- mean(abs(CZdiff_zero_samples) > sqrt(n) * abs(CZ - ccZ))
+        pvals[c_index, 2] <- mean(abs(CZdiff_zero_samples) > sqrt(n) * abs(CZ - ccZ)) / 2 # Divide by 2 because in the merging of p-values we (wrongly) multiply by 2. No Bonferroni necessary!
       }
     }
   }
@@ -238,12 +244,12 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
         # This test draws on samples from the asymptotic distribution
         Z1 <- stats::rnorm(m_rep)
         Cdiff_zero_samples <- sqrt(as.numeric(t(Delta) %*% Omega %*% Delta)) * (Z1 * 1 * (Z1 >= 0) / m_plus + Z1 * 1 * (Z1 < 0) / m_minus)
-        pvals[c_index, 2] <- mean(abs(Cdiff_zero_samples) > sqrt(n) * abs(C - cc))
+        pvals[c_index, 2] <- mean(abs(Cdiff_zero_samples) > sqrt(n) * abs(C - cc)) / 2 # Divide by 2 because in the merging of p-values we (wrongly) multiply by 2. No Bonferroni necessary!
       }
     }
   }
   # Merge the p-values
-  pval_min_pretest <- pmin(1, 2 * apply(cbind(p_vals_pretest, apply(pvals, 1, max, na.rm = T)), 1, min, na.rm=T))
+  pval_min_pretest <- pmin(1, 2 * apply(cbind(p_vals_pretest, apply(cbind(2 * apply(cbind(pvals[,2], pv_eq_pre), 1, min, na.rm = T), pvals[,1]), 1, max, na.rm = T)), 1, min, na.rm=T))
 
   # Define the lower and upper limits of the confidence intervals for C
   lower_vals_C <- min(c_seq[which(pval_min_pretest >= 1 - alpha)])
@@ -261,7 +267,7 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
                         C, C_CI[1], C_CI[2])
   }
   if (details_inference){
-    details <- dplyr::tibble(c_seq = c_seq, pv_uneq = pvals[,1], pv_eq = pvals[,2], pv_pretest = p_vals_pretest)
+    details <- dplyr::tibble(c_seq = c_seq, pv_uneq = pvals[,1], pv_eq = pvals[,2], pv_pretest = p_vals_pretest, pv_eq_pretest = pv_eq_pre)
     return(list(res, details))
   } else return(res)
 }
