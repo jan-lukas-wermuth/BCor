@@ -44,8 +44,8 @@ Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep
     if (dplyr::near(sum(X), 1)){
       X <- X * n
     }
-    x <- as.numeric(epitools::expand.table(X)[,1]) - 1
-    y <- as.numeric(epitools::expand.table(X)[,2]) - 1
+    x <- as.numeric(as.character(epitools::expand.table(X)[,1]))
+    y <- as.numeric(as.character(epitools::expand.table(X)[,2]))
   } else {
     x <- X
     y <- Y
