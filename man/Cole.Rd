@@ -17,9 +17,9 @@ Cole(
 )
 }
 \arguments{
-\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
+\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.}
 
-\item{Y}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
+\item{Y}{NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.}
 
 \item{alpha}{confidence level for the returned confidence interval. FALSE yields Cole's C without confidence intervals.}
 
@@ -31,7 +31,7 @@ Cole(
 
 \item{c_seq}{sequence of C_0 to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.}
 
-\item{n}{sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.}
+\item{n}{sample size. Only necessary if probabilities are provided and confidence intervals are desired.}
 
 \item{details_inference}{logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals.}
 }

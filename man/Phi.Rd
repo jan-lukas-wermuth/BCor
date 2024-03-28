@@ -7,9 +7,9 @@
 Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 }
 \arguments{
-\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
+\item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.}
 
-\item{Y}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1.}
+\item{Y}{NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.}
 
 \item{alpha}{confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.}
 
@@ -17,7 +17,7 @@ Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 
 \item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
 
-\item{n}{sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.}
+\item{n}{sample size. Only necessary if probabilities are provided and confidence intervals are desired.}
 }
 \value{
 The value of Phi together with the specified confidence interval.

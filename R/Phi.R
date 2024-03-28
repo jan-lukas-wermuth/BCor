@@ -2,12 +2,12 @@
 #'
 #' `Phi()` computes Phi and corresponding confidence intervals.
 #'
-#' @param X a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
-#' @param Y a n x 1 numeric vector, matrix or data frame with values of 0 or 1.
+#' @param X a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.
+#' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
-#' @param n sample size. Only necessary if a contingency table of probabilities is provided and confidence intervals are desired.
+#' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #'
 #' @return The value of Phi together with the specified confidence interval.
 #' @export
@@ -15,10 +15,20 @@
 #' @examples
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Phi(x)
-Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
+Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n = 10000) {
   if (isFALSE(alpha)){
     if (!is.null(Y)){
       X <- table(X, Y)
+    }
+    if(is.null(Y) && length(X) == 3){
+      p <- X[1]
+      q <- X[2]
+      r <- X[3]
+      X <- matrix(NA, ncol = 2, nrow = 2)
+      X[1,1] <- r
+      X[1,2] <- p - r
+      X[2,1] <- q - r
+      X[2,2] <- 1 - p - q + r
     }
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
     a <- as.numeric(X[1, 1])
@@ -32,6 +42,16 @@ Phi <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n) {
     return(res)
   }
   if (is.null(Y)){
+    if (length(X) == 3){
+      p <- X[1]
+      q <- X[2]
+      r <- X[3]
+      X <- matrix(NA, ncol = 2, nrow = 2)
+      X[1,1] <- r
+      X[1,2] <- p - r
+      X[2,1] <- q - r
+      X[2,2] <- 1 - p - q + r
+    }
     stopifnot(prod(dim(X)) == 4 || length(X) == 4)
     colnames(X) <- c(1,0)
     rownames(X) <- c(1,0)

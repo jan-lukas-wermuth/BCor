@@ -7,9 +7,9 @@
 Oddsratio(X, Y = NULL)
 }
 \arguments{
-\item{X}{a n x 1 numeric vector, matrix or data frame.}
+\item{X}{a n x 1 numeric vector, matrix or data frame. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.}
 
-\item{Y}{a n x 1 numeric vector, matrix or data frame.}
+\item{Y}{NULL (default) or a n x 1 numeric vector, matrix or data frame and compatible dimensions to X.}
 }
 \value{
 The value of the oddsratio
