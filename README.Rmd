@@ -38,10 +38,11 @@ library(BCor)
 
 ## Example
 
-We provide a simple example illustrating the use of attainable correlations for $2 \times 2$ contingency tables as well as their inverses.
+We provide a simple example illustrating the use of correlation coefficients for $2 \times 2$ contingency tables as well as their inverses. Confidence intervals are only included for Phi, Cole and Yule's Q.
 
 ```{r}
-x <- matrix(c(10, 20, 30, 5), ncol = 2)
+# matrix with x[1,1] = 10, x[2,1] = 20, x[1,2] = 30, x[2,2] = 5
+x <- matrix(c(10, 20, 30, 5), ncol = 2) 
 
 BCor::Phi(x)
 BCor::Cole(x)
@@ -52,8 +53,10 @@ BCor::Oddsratio(x)
 
 C <- 0.5
 Q <- 0.5
-m <- c(10, 40, 20, 30)
 
-Cole.inv(C, m)
-YuleQ.inv(Q, m)
+# a 4 x 1 vector of marginals c(R1, R2, C1, C2)
+m <- c(10, 40, 20, 30) 
+
+BCor::Cole.inv(C, m)
+BCor::YuleQ.inv(Q, m)
 ```
