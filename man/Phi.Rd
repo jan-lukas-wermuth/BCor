@@ -4,7 +4,7 @@
 \alias{Phi}
 \title{Phi}
 \usage{
-Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
+Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n = 10000)
 }
 \arguments{
 \item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.}

@@ -23,7 +23,7 @@ library(BCor)
 
 This package accompanies the paper _Measuring Dependence between Events_ by Marc-Oliver Pohle, Timo Dimitriadis and Jan-Lukas Wermuth.
 
-It provides functions which compute estimators for correlation coefficients that are specific to $2 \times 2$ contingency tables and fulfill the characteristic of attainability, i.e. that attain the value 1 for perfectly positively dependent (comonotonic) Bernoulli distributions and -1 for perfectly negatively dependent (countermonotonic) Bernoulli distributions. Additionally, we offer the corresponding inverses, i.e. functions that compute the underlying $2 \times 2$ contingency table given the value of the dependence measure and the marginal frequencies.
+It provides functions which compute estimators for correlation coefficients that are specific to $2 \times 2$ contingency tables. Additionally, the functions _YuleQ_, _Cole_ and _Phi_ yield the lower and upper bounds of the respective confidence intervals. Furthermore, we offer the corresponding inverses, i.e. functions that compute the underlying $2 \times 2$ contingency table given the value of the dependence measure and the marginal frequencies.
 
 ## Installation
 
@@ -43,9 +43,12 @@ We provide a simple example illustrating the use of attainable correlations for 
 ```{r}
 x <- matrix(c(10, 20, 30, 5), ncol = 2)
 
-Cole(x)
-YuleQ(x)
-Tetrachoric(x)
+BCor::Phi(x)
+BCor::Cole(x)
+BCor::YuleQ(x)
+BCor::YuleQ(x, g = 0.5)
+BCor::Tetrachoric(x)
+BCor::Oddsratio(x)
 
 C <- 0.5
 Q <- 0.5

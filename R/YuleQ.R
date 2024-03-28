@@ -1,6 +1,6 @@
 #' Yule's Q
 #'
-#' `YuleQ()` computes Yule's Q and corresponding confidence intervals.
+#' `YuleQ()` computes (generalized) Yule's Q and corresponding confidence intervals.
 #'
 #' @param X a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.
 #' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
@@ -17,7 +17,7 @@
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' YuleQ(x)
 YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n = 10000) {
-  if (isFALSE(alpha)){
+  if (isFALSE(alpha) || (g > 0 & g < 1)){
     if (!is.null(Y)){
       X <- table(X, Y)
     }
@@ -36,7 +36,7 @@ YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid
     b <- as.numeric(X[1, 2])
     c <- as.numeric(X[2, 1])
     d <- as.numeric(X[2, 2])
-    Q <- (a * d - b * c)/(a * d + b * c)
+    Q <- ((a * d)^g - (b * c)^g)/((a * d)^g + (b * c)^g)
     res <- dplyr::tribble(~Q,
                           #--
                           Q)

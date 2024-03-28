@@ -4,7 +4,15 @@
 \alias{YuleQ}
 \title{Yule's Q}
 \usage{
-YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
+YuleQ(
+  X,
+  Y = NULL,
+  g = 1,
+  alpha = 0.95,
+  Fisher = TRUE,
+  covar = "iid",
+  n = 10000
+)
 }
 \arguments{
 \item{X}{a n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.}
@@ -25,7 +33,7 @@ YuleQ(X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n)
 The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H.
 }
 \description{
-\code{YuleQ()} computes Yule's Q and corresponding confidence intervals.
+\code{YuleQ()} computes (generalized) Yule's Q and corresponding confidence intervals.
 }
 \examples{
 x <- matrix(c(10, 20, 30, 5), ncol = 2)

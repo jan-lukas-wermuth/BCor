@@ -12,7 +12,7 @@ Cole(
   covar = "iid",
   m_rep = 10000,
   c_seq = NA,
-  n,
+  n = 10000,
   details_inference = FALSE
 )
 }

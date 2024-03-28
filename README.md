@@ -12,14 +12,12 @@ This package accompanies the paper *Measuring Dependence between Events*
 by Marc-Oliver Pohle, Timo Dimitriadis and Jan-Lukas Wermuth.
 
 It provides functions which compute estimators for correlation
-coefficients that are specific to $2 \times 2$ contingency tables and
-fulfill the characteristic of attainability, i.e. that attain the value
-1 for perfectly positively dependent (comonotonic) Bernoulli
-distributions and -1 for perfectly negatively dependent
-(countermonotonic) Bernoulli distributions. Additionally, we offer the
-corresponding inverses, i.e. functions that compute the underlying
-$2 \times 2$ contingency table given the value of the dependence measure
-and the marginal frequencies.
+coefficients that are specific to $2 \times 2$ contingency tables.
+Additionally, the functions *YuleQ*, *Cole* and *Phi* yield the lower
+and upper bounds of the respective confidence intervals. Furthermore, we
+offer the corresponding inverses, i.e. functions that compute the
+underlying $2 \times 2$ contingency table given the value of the
+dependence measure and the marginal frequencies.
 
 ## Installation
 
@@ -42,18 +40,30 @@ inverses.
 ``` r
 x <- matrix(c(10, 20, 30, 5), ncol = 2)
 
-Cole(x)
+BCor::Phi(x)
+#> # A tibble: 1 × 3
+#>      Phi CI_lower CI_upper
+#>    <dbl>    <dbl>    <dbl>
+#> 1 -0.537   -0.711   -0.300
+BCor::Cole(x)
 #> # A tibble: 1 × 3
 #>        C CI_lower CI_upper
 #>    <dbl>    <dbl>    <dbl>
-#> 1 -0.629    -0.81   -0.208
-YuleQ(x)
+#> 1 -0.629   -0.843    -0.24
+BCor::YuleQ(x)
 #> # A tibble: 1 × 3
 #>        Q CI_lower CI_upper
 #>    <dbl>    <dbl>    <dbl>
 #> 1 -0.846   -0.952   -0.559
-Tetrachoric(x)
+BCor::YuleQ(x, g = 0.5)
+#> # A tibble: 1 × 3
+#>        Q CI_lower CI_upper
+#>    <dbl>    <dbl>    <dbl>
+#> 1 -0.846   -0.952   -0.559
+BCor::Tetrachoric(x)
 #> [1] -0.7559687
+BCor::Oddsratio(x)
+#> [1] 0.08333333
 
 C <- 0.5
 Q <- 0.5
