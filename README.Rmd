@@ -30,9 +30,9 @@ It provides functions which compute estimators for correlation coefficients that
 To install the package from GitHub and load it, run the following `R` code:
 
 ``` r
-install.packages("devtools")
+install.packages("devtools") # Skip if the package is already installed
 library(devtools)
-install_github("jan-lukas-wermuth/BCor")
+install_github("jan-lukas-wermuth/BCor") # Skip if the package is already installed
 library(BCor)
 ```
 
@@ -41,22 +41,34 @@ library(BCor)
 We provide a simple example illustrating the use of correlation coefficients for $2 \times 2$ contingency tables as well as their inverses. Confidence intervals are only included for Phi, Cole and Yule's Q.
 
 ```{r}
-# matrix with x[1,1] = 10, x[2,1] = 20, x[1,2] = 30, x[2,2] = 5
+# Create a 2 x 2 contingency table in the form of a matrix 
+# with x[1,1] = 10, x[2,1] = 20, x[1,2] = 30 and x[2,2] = 5.
 x <- matrix(c(10, 20, 30, 5), ncol = 2) 
 
-BCor::Phi(x)
-BCor::Cole(x)
-BCor::YuleQ(x)
-BCor::YuleQ(x, g = 0.5)
-BCor::Tetrachoric(x)
-BCor::Oddsratio(x)
+# Compute the phi coefficient
+Phi(x)
+# Compute Cole's C
+Cole(x)
+# Compute Yule's Q
+YuleQ(x)
+# Compute Yule's Y
+YuleQ(x, g = 0.5)
+# Compute the tetrachoric correlation
+Tetrachoric(x)
+# Compute the odds ratio
+Oddsratio(x)
+# Apply the inverse functions: Insert a vector of marginals together 
+# with a coefficient (Cole's C or Yule's Q) and obtain the 2 x 2 contingency table.
 
+# Define coefficient values
 C <- 0.5
 Q <- 0.5
 
-# a 4 x 1 vector of marginals c(R1, R2, C1, C2)
+# Define a 4 x 1 vector of marginals c(R1, R2, C1, C2)
 m <- c(10, 40, 20, 30) 
 
-BCor::Cole.inv(C, m)
-BCor::YuleQ.inv(Q, m)
+# Compute the 2 x 2 contingency table based on Cole's C
+Cole.inv(C, m)
+# Compute the 2 x 2 contingency table based on Yule's Q
+YuleQ.inv(Q, m)
 ```
