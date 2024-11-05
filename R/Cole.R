@@ -8,7 +8,7 @@
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param m_rep number of Monte Carlo replications used for approximating the limiting distribution of Cole's C.
-#' @param c_seq sequence of C_0 to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.
+#' @param c_seq sequence of C_0 (null hypothesis) to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #' @param details_inference logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals.
 #'

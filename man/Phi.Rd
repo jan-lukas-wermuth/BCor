@@ -2,7 +2,7 @@
 % Please edit documentation in R/Phi.R
 \name{Phi}
 \alias{Phi}
-\title{Phi}
+\title{Phi Coefficient}
 \usage{
 Phi(X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", n = 10000)
 }

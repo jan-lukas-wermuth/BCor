@@ -29,7 +29,7 @@ Cole(
 
 \item{m_rep}{number of Monte Carlo replications used for approximating the limiting distribution of Cole's C.}
 
-\item{c_seq}{sequence of C_0 to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.}
+\item{c_seq}{sequence of C_0 (null hypothesis) to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.}
 
 \item{n}{sample size. Only necessary if probabilities are provided and confidence intervals are desired.}
 
