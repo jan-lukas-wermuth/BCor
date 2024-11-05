@@ -2,7 +2,7 @@
 % Please edit documentation in R/2x2_inverse.R
 \name{YuleQ.inv}
 \alias{YuleQ.inv}
-\title{YuleQ.inv}
+\title{Inverse Yule's Q for 2 x 2 contingency tables}
 \usage{
 YuleQ.inv(Q, m)
 }
@@ -15,10 +15,16 @@ YuleQ.inv(Q, m)
 a matrix corresponding to the inputs of a 2x2 contingency table
 }
 \description{
-YuleQ.inv
+\code{YuleQ.inv()} computes a 2 x 2 contingency table based on the marginal frequencies or probabilities and Yule's Q.
 }
 \examples{
 Q <- 0.5
 m <- c(10, 40, 20, 30)
 YuleQ.inv(Q, m)
+}
+\references{
+\itemize{
+\item \insertRef{pohle2024measuringdependenceevents}{BCor}
+\item \insertRef{yule1900}{BCor}
+}
 }

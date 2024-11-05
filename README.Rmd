@@ -23,7 +23,7 @@ library(BCor)
 
 This package accompanies the paper _Measuring Dependence between Events_ by Marc-Oliver Pohle, Timo Dimitriadis and Jan-Lukas Wermuth.
 
-It provides functions which compute estimators for correlation coefficients that are specific to $2 \times 2$ contingency tables. Additionally, the functions _YuleQ_, _Cole_ and _Phi_ yield the lower and upper bounds of the respective confidence intervals. Furthermore, we offer the corresponding inverses, i.e. functions that compute the underlying $2 \times 2$ contingency table given the value of the dependence measure and the marginal frequencies.
+It provides functions which compute estimators for correlation coefficients that are specific to $2 \times 2$ contingency tables. Additionally, the functions _YuleQ_, _Cole_ and _Phi_ yield the lower and upper bounds of the respective confidence intervals. Furthermore, we offer the corresponding inverses, i.e. functions that compute the underlying $2 \times 2$ contingency table given the value of the dependence measure and the marginal frequencies or probabilities.
 
 ## Installation
 

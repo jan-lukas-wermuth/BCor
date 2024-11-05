@@ -2,7 +2,7 @@
 #'
 #' `Cole()` computes Cole's correlation and corresponding confidence intervals.
 #'
-#' @param X an n x 1 numeric vector, matrix or data frame with values of 0 or 1. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.
+#' @param X a numeric vector, matrix or data frame with values of 0 or 1. Alternatively, a 2 x 2 matrix / contingency table can be supplied. In that case, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected. p denotes the success probability of the row variable, q the success probability of the column variable and r the joint success probability.
 #' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Cole's C without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
@@ -12,12 +12,43 @@
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #' @param details_inference logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals.
 #'
-#' @return The value of Cole's correlation.
+#' @return The value of Cole's correlation together with the specified confidence interval.
+#' @import Rdpack
+#' @import dplyr
+#' @import mvtnorm
+#' @import stats
+#' @import MASS
+#' @import epitools
+#' @import sandwich
+#' @import magrittr
 #' @export
 #'
+#' @references
+#' - \insertRef{pohle2024measuringdependenceevents}{BCor}
+#' - \insertRef{Cole1949}{BCor}
+#'
 #' @examples
+#' # Insert a contingency table with frequencies in form of a matrix.
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' Cole(x)
+#'
+#' # Insert a contingency table with relative frequencies in form of a matrix.
+#' # In that case, disable confidence intervals via alpha = FALSE or supply a sample size n.
+#' x <- matrix(c(0.2, 0.1, 0.4, 0.3), ncol = 2)
+#' Cole(x, alpha = FALSE)
+#'
+#' # Insert two vectors of observations.
+#' x <- c(0,1,1,1,1,0,1,0,0,1)
+#' y <- c(1,0,1,1,0,0,0,0,1,0)
+#' Cole(x, y)
+#'
+#' # Insert two marginal success probabilities (p for the row variable and q for the column variable)
+#' # and a joint success probability r. In that case, disable confidence intervals via alpha = FALSE
+#' # or supply a sample size n.
+#' p <- 0.6
+#' q <- 0.3
+#' r <- 0.2
+#' Cole(c(p, q, r), alpha = FALSE)
 Cole <- function (X, Y = NULL, alpha = 0.95, Fisher = TRUE, covar = "iid", m_rep = 10000, c_seq = NA, n = 10000, details_inference = FALSE) {
   if (isFALSE(alpha)){
     if (!is.null(Y)){

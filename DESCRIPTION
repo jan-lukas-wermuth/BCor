@@ -11,8 +11,9 @@ Description: A collection of estimators for correlation coefficients specific to
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Imports: 
+RoxygenNote: 7.3.1
+Imports:
+    Rdpack,
     dplyr,
     mvtnorm,
     stats,
@@ -20,5 +21,6 @@ Imports:
     epitools,
     sandwich,
     magrittr
+RdMacros: Rdpack
 URL: https://github.com/jan-lukas-wermuth/BCor
 BugReports: https://github.com/jan-lukas-wermuth/BCor/issues

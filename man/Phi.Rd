@@ -26,6 +26,33 @@ The value of Phi together with the specified confidence interval.
 \code{Phi()} computes Phi and corresponding confidence intervals.
 }
 \examples{
+# Insert a contingency table with frequencies in form of a matrix.
 x <- matrix(c(10, 20, 30, 5), ncol = 2)
 Phi(x)
+
+# Insert a contingency table with relative frequencies in form of a matrix.
+# In that case, disable confidence intervals via alpha = FALSE or supply a sample size n.
+x <- matrix(c(0.2, 0.1, 0.4, 0.3), ncol = 2)
+Phi(x, alpha = FALSE)
+
+# Insert two vectors of observations.
+x <- c(0,1,1,1,1,0,1,0,0,1)
+y <- c(1,0,1,1,0,0,0,0,1,0)
+Phi(x, y)
+
+# Insert two marginal success probabilities (p for the row variable and q for the column variable)
+# and a joint success probability r. In that case, disable confidence intervals via alpha = FALSE
+# or supply a sample size n.
+p <- 0.6
+q <- 0.3
+r <- 0.2
+Phi(c(p, q, r), alpha = FALSE)
+}
+\references{
+\itemize{
+\item \insertRef{pohle2024measuringdependenceevents}{BCor}
+\item \insertRef{pearson1900}{BCor}
+\item \insertRef{boas1909}{BCor}
+\item \insertRef{yule1912}{BCor}
+}
 }

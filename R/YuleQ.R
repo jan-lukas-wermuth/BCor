@@ -10,12 +10,36 @@
 #' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #'
-#' @return The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H.
+#' @return The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H. Confidence intervals are only implemented for Yule's Q (g = 1).
 #' @export
 #'
+#' @references
+#' - \insertRef{pohle2024measuringdependenceevents}{BCor}
+#' - \insertRef{yule1900}{BCor}
+#' - \insertRef{yule1912}{BCor}
+#'
 #' @examples
+#' # Insert a contingency table with frequencies in form of a matrix.
 #' x <- matrix(c(10, 20, 30, 5), ncol = 2)
 #' YuleQ(x)
+#'
+#' # Insert a contingency table with relative frequencies in form of a matrix.
+#' # In that case, disable confidence intervals via alpha = FALSE or supply a sample size n.
+#' x <- matrix(c(0.2, 0.1, 0.4, 0.3), ncol = 2)
+#' YuleQ(x, alpha = FALSE)
+#'
+#' # Insert two vectors of observations.
+#' x <- c(0,1,1,1,1,0,1,0,0,1)
+#' y <- c(1,0,1,1,0,0,0,0,1,0)
+#' YuleQ(x, y)
+#'
+#' # Insert two marginal success probabilities (p for the row variable and q for the column variable)
+#' # and a joint success probability r. In that case, disable confidence intervals via alpha = FALSE
+#' # or supply a sample size n.
+#' p <- 0.6
+#' q <- 0.3
+#' r <- 0.2
+#' YuleQ(c(p, q, r), alpha = FALSE)
 YuleQ <- function (X, Y = NULL, g = 1, alpha = 0.95, Fisher = TRUE, covar = "iid", n = 10000) {
   if (isFALSE(alpha) || (g > 0 & g < 1)){
     if (!is.null(Y)){

@@ -17,7 +17,7 @@ Additionally, the functions *YuleQ*, *Cole* and *Phi* yield the lower
 and upper bounds of the respective confidence intervals. Furthermore, we
 offer the corresponding inverses, i.e. functions that compute the
 underlying $2 \times 2$ contingency table given the value of the
-dependence measure and the marginal frequencies.
+dependence measure and the marginal frequencies or probabilities.
 
 ## Installation
 

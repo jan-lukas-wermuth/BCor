@@ -1,10 +1,16 @@
-#' Cole.inv
+#' Inverse Cole's C for 2 x 2 contingency tables
+#'
+#' `Cole.inv()` computes a 2 x 2 contingency table based on the marginal frequencies or probabilities and Cole's C.
 #'
 #' @param C Cole's C
 #' @param m a 4 x 1 vector of marginals c(R1, R2, C1, C2)
 #'
 #' @return a matrix corresponding to the inputs of a 2x2 contingency table
 #' @export
+#'
+#' @references
+#' - \insertRef{pohle2024measuringdependenceevents}{BCor}
+#' - \insertRef{Cole1949}{BCor}
 #'
 #' @examples
 #' C <- 0.5
@@ -38,13 +44,19 @@ Cole.inv <- function (C, m)
   return(round(R * n, digits = 10))
 }
 
-#' YuleQ.inv
+#' Inverse Yule's Q for 2 x 2 contingency tables
+#'
+#' `YuleQ.inv()` computes a 2 x 2 contingency table based on the marginal frequencies or probabilities and Yule's Q.
 #'
 #' @param Q Yule's Q
 #' @param m a 4 x 1 vector of marginals c(R1, R2, C1, C2)
 #'
 #' @return a matrix corresponding to the inputs of a 2x2 contingency table
 #' @export
+#'
+#' @references
+#' - \insertRef{pohle2024measuringdependenceevents}{BCor}
+#' - \insertRef{yule1900}{BCor}
 #'
 #' @examples
 #' Q <- 0.5

@@ -2,7 +2,7 @@
 % Please edit documentation in R/2x2_inverse.R
 \name{Cole.inv}
 \alias{Cole.inv}
-\title{Cole.inv}
+\title{Inverse Cole's C for 2 x 2 contingency tables}
 \usage{
 Cole.inv(C, m)
 }
@@ -15,10 +15,16 @@ Cole.inv(C, m)
 a matrix corresponding to the inputs of a 2x2 contingency table
 }
 \description{
-Cole.inv
+\code{Cole.inv()} computes a 2 x 2 contingency table based on the marginal frequencies or probabilities and Cole's C.
 }
 \examples{
 C <- 0.5
 m <- c(10, 40, 20, 30)
 Cole.inv(C, m)
+}
+\references{
+\itemize{
+\item \insertRef{pohle2024measuringdependenceevents}{BCor}
+\item \insertRef{Cole1949}{BCor}
+}
 }

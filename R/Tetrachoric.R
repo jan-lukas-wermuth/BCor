@@ -2,15 +2,36 @@
 #'
 #' `Tetrachoric()` computes the tetrachoric correlation.
 #'
-#' @param X a n x 1 numeric vector, matrix or data frame. If a contingency table is supplied, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected.
-#' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame and compatible dimensions to X.
+#' @param X a numeric vector, matrix or data frame with values of 0 or 1. Alternatively, a 2 x 2 matrix / contingency table can be supplied. In that case, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected. p denotes the success probability of the row variable, q the success probability of the column variable and r the joint success probability.
+#' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
 #'
 #' @return The value of the tetrachoric correlation.
 #' @export
 #'
+#' @references
+#' - \insertRef{pohle2024measuringdependenceevents}{BCor}
+#' - \insertRef{pearson1900}{BCor}
+#'
 #' @examples
-#' X <- matrix(c(10, 20, 30, 5), ncol = 2)
-#' Tetrachoric(X)
+#' # Insert a contingency table with frequencies in form of a matrix.
+#' x <- matrix(c(10, 20, 30, 5), ncol = 2)
+#' Tetrachoric(x)
+#'
+#' # Insert a contingency table with relative frequencies in form of a matrix.
+#' x <- matrix(c(0.2, 0.1, 0.4, 0.3), ncol = 2)
+#' Tetrachoric(x)
+#'
+#' # Insert two vectors of observations.
+#' x <- c(0,1,1,1,1,0,1,0,0,1)
+#' y <- c(1,0,1,1,0,0,0,0,1,0)
+#' Tetrachoric(x, y)
+#'
+#' # Insert two marginal success probabilities (p for the row variable and q for the column variable)
+#' # and a joint success probability r.
+#' p <- 0.6
+#' q <- 0.3
+#' r <- 0.2
+#' Tetrachoric(c(p, q, r))
 Tetrachoric <- function (X, Y = NULL) {
   if (!is.null(Y))
     X <- table(X, Y)
