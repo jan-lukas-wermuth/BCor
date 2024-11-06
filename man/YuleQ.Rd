@@ -25,7 +25,7 @@ YuleQ(
 
 \item{Fisher}{Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.}
 
-\item{covar}{data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").}
+\item{covar}{method that is used to compute the covariance matrix, denoted Omega in \insertCite{pohle2024measuringdependenceevents}{BCor}, see in particular Appendix C. Options are eiher  iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC“), where the latter two follow the method of \insertCite{NeweyWest1987}{BCor}.}
 
 \item{n}{sample size. Only necessary if probabilities are provided and confidence intervals are desired.}
 }
@@ -63,5 +63,6 @@ YuleQ(c(p, q, r), alpha = FALSE)
 \item \insertRef{pohle2024measuringdependenceevents}{BCor}
 \item \insertRef{yule1900}{BCor}
 \item \insertRef{yule1912}{BCor}
+\item \insertRef{NeweyWest1987}{BCor}
 }
 }

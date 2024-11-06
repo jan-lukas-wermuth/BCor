@@ -5,12 +5,12 @@
 #' @param X a numeric vector, matrix or data frame with values of 0 or 1. Alternatively, a 2 x 2 matrix / contingency table can be supplied. In that case, the upper left corner shall contain the joint success probability (or frequency). If a 3-dimensional vector of probabilities is supplied, the order (p, q, r) shall be respected. p denotes the success probability of the row variable, q the success probability of the column variable and r the joint success probability.
 #' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Cole's C without confidence intervals.
-#' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
-#' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
-#' @param m_rep number of Monte Carlo replications used for approximating the limiting distribution of Cole's C.
-#' @param c_seq sequence of C_0 (null hypothesis) to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001.
+#' @param Fisher indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
+#' @param covar method that is used to compute the covariance matrix, denoted Omega in \insertCite{pohle2024measuringdependenceevents}{BCor}, see in particular Appendix C. Options are eiher  iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC“), where the latter two follow the method of \insertCite{NeweyWest1987}{BCor}.
+#' @param m_rep number of Monte Carlo replications used for approximating the limiting distribution of Cole's C \insertCite{pohle2024measuringdependenceevents}{BCor}.
+#' @param c_seq sequence of C_0 (null hypothesis) to be tested for computing the confidence interval. Default is the sequence from -0.999 to 0.999 with distance 0.001 \insertCite{pohle2024measuringdependenceevents}{BCor}.
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
-#' @param details_inference logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals.
+#' @param details_inference logical. If TRUE, the output includes all 3 p-values that arise during the testing procedure that yields confidence intervals \insertCite{pohle2024measuringdependenceevents}{BCor}.
 #'
 #' @return The value of Cole's correlation together with the specified confidence interval.
 #' @import Rdpack
@@ -26,6 +26,7 @@
 #' @references
 #' - \insertRef{pohle2024measuringdependenceevents}{BCor}
 #' - \insertRef{Cole1949}{BCor}
+#' - \insertRef{NeweyWest1987}{BCor}
 #'
 #' @examples
 #' # Insert a contingency table with frequencies in form of a matrix.

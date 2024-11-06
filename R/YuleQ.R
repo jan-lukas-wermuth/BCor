@@ -7,7 +7,7 @@
 #' @param g a scalar between 0 and 1.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Yule's Q without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
-#' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
+#' @param covar method that is used to compute the covariance matrix, denoted Omega in \insertCite{pohle2024measuringdependenceevents}{BCor}, see in particular Appendix C. Options are eiher  iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC“), where the latter two follow the method of \insertCite{NeweyWest1987}{BCor}.
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #'
 #' @return The value of Yule's Q or any of its related measures. g = 0.5 yields Yule's Y and g = 0.75 yields Digby's H. Confidence intervals are only implemented for Yule's Q (g = 1).
@@ -17,6 +17,7 @@
 #' - \insertRef{pohle2024measuringdependenceevents}{BCor}
 #' - \insertRef{yule1900}{BCor}
 #' - \insertRef{yule1912}{BCor}
+#' - \insertRef{NeweyWest1987}{BCor}
 #'
 #' @examples
 #' # Insert a contingency table with frequencies in form of a matrix.

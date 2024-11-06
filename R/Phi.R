@@ -6,7 +6,7 @@
 #' @param Y NULL (default) or a n x 1 numeric vector, matrix or data frame with values of 0 or 1 and compatible dimensions to X.
 #' @param alpha confidence level for the returned confidence interval. FALSE yields Phi without confidence intervals.
 #' @param Fisher Indicator whether confidence intervals should be computed by using the Fisher Transformation. Default is TRUE.
-#' @param covar data assumptions: iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC").
+#' @param covar method that is used to compute the covariance matrix, denoted Omega in \insertCite{pohle2024measuringdependenceevents}{BCor}, see in particular Appendix C. Options are eiher  iid ("iid"), heteroskedasticity ("HC") or heteroskedasticity and autocorrelation ("HAC“), where the latter two follow the method of \insertCite{NeweyWest1987}{BCor}.
 #' @param n sample size. Only necessary if probabilities are provided and confidence intervals are desired.
 #'
 #' @return The value of Phi together with the specified confidence interval.
@@ -17,6 +17,7 @@
 #' - \insertRef{pearson1900}{BCor}
 #' - \insertRef{boas1909}{BCor}
 #' - \insertRef{yule1912}{BCor}
+#' - \insertRef{NeweyWest1987}{BCor}
 #'
 #' @examples
 #' # Insert a contingency table with frequencies in form of a matrix.
